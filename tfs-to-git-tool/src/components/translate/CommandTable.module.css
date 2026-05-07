@@ -1,0 +1,110 @@
+.section {
+  margin-bottom: var(--space-12);
+}
+
+.title {
+  margin-bottom: var(--space-4);
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--space-3) var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.searchInput:focus {
+  outline: 2px solid var(--color-primary);
+  border-color: transparent;
+}
+
+.clearButton {
+  position: absolute;
+  right: var(--space-3);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearButton:hover {
+  color: var(--color-text);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: var(--color-surface);
+}
+
+.table th {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--space-4);
+  font-family: var(--font-action);
+  font-weight: 600;
+}
+
+.table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-bg);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.tfsCell {
+  font-weight: 600;
+}
+
+.gitCell {
+  font-weight: 600;
+  color: var(--color-info);
+}
+
+.table code {
+  background-color: var(--color-bg);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+  border: 1px solid var(--color-border);
+  white-space: pre-wrap;
+  display: inline-block;
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--space-8);
+}

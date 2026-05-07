@@ -1,0 +1,144 @@
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--accent-color);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.header {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.icon {
+  color: var(--accent-color);
+}
+
+.title {
+  font-family: var(--font-action);
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.extraInfo {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.content {
+  padding: var(--space-4);
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 120px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.fileItem, .commitItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  animation: slideIn 300ms ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fileName {
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 12px;
+  background-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.badge.untracked {
+  background-color: #e0e0e0;
+}
+.badge.modified {
+  background-color: #ffe0b2;
+  color: #e65100;
+}
+.badge.staged {
+  background-color: #c8e6c9;
+  color: #1b5e20;
+}
+
+[data-theme="dark"] .badge.untracked {
+  background-color: #424242;
+}
+[data-theme="dark"] .badge.modified {
+  background-color: #5d4037;
+  color: #ffb74d;
+}
+[data-theme="dark"] .badge.staged {
+  background-color: #1b5e20;
+  color: #81c784;
+}
+
+.commitHash {
+  font-family: monospace;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.commitMsg {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.emptyState {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+}

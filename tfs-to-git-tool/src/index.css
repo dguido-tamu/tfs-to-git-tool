@@ -1,0 +1,125 @@
+/* ==========================================================================
+   CSS Custom Properties (Tokens)
+   ========================================================================== */
+
+:root {
+  /* Colors from Section 9 (Theme override) and Section 3 */
+  --color-bg: #f6f6f6;
+  --color-surface: #ffffff;
+  --color-nav: #500000;
+  --color-text: #202020;
+  --color-text-muted: #707070;
+  --color-border: #d1d1d1;
+  --color-primary: #500000;
+  --color-primary-hover: #3c0000;
+  --color-primary-light: #732f2f;
+
+  /* Additional colors from Section 3 */
+  --color-maroon: #500000;
+  --color-maroon-dark: #3C0000;
+  --color-maroon-light: #732F2F;
+  --color-cream: #D6D3C4;
+  
+  /* Semantic state colors */
+  --color-success: #437a22;
+  --color-warning: #d19900;
+  --color-error: #a12c7b;
+  --color-info: #006494;
+
+  /* Typography Tokens */
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-action: 'Work Sans', sans-serif;
+
+  /* Spacing Scale (4px base) */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem;   /* 48px */
+  --space-16: 4rem;   /* 64px */
+  --space-24: 6rem;   /* 96px */
+  --space-32: 8rem;   /* 128px */
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-surface: #242424;
+  --color-nav: #3c0000;
+  --color-text: #ececec;
+  --color-text-muted: #a7a7a7;
+  --color-border: #3e3e3e;
+  --color-primary: #732f2f;
+  --color-primary-hover: #500000;
+  --color-primary-light: #8a4040;
+
+  /* Adjust additional Section 3 colors for dark mode */
+  --color-maroon: #732F2F;
+  --color-maroon-dark: #500000;
+  --color-maroon-light: #8A4040;
+  --color-cream: #3A3832; /* darker cream approximation */
+}
+
+
+/* ==========================================================================
+   Base Reset
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+}
+
+h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+button, a {
+  font-family: var(--font-action);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* Ensure focus states are visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
