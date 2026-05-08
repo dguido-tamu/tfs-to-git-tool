@@ -27,6 +27,13 @@ export default {
       description: 'Record changes to the local repository.',
       tfsEquivalent: 'Check In (local part)',
       example: 'git commit -m "Fix bug #123"'
+    },
+    {
+      name: 'git log',
+      syntax: 'git log',
+      description: 'Show commit logs.',
+      tfsEquivalent: 'View History',
+      example: 'git log --oneline'
     }
   ],
   branching: [
@@ -40,7 +47,7 @@ export default {
     {
       name: 'git switch',
       syntax: 'git switch <branch>',
-      description: 'Switch branches.',
+      description: 'Switch branches. Modern replacement for git checkout when switching branches.',
       tfsEquivalent: 'Switch Workspace Context',
       example: 'git switch main'
     },
@@ -91,13 +98,6 @@ export default {
       example: 'git stash'
     },
     {
-      name: 'git log',
-      syntax: 'git log',
-      description: 'Show commit logs.',
-      tfsEquivalent: 'View History',
-      example: 'git log --oneline'
-    },
-    {
       name: 'git restore',
       syntax: 'git restore <file>',
       description: 'Restore working tree files.',
@@ -110,6 +110,29 @@ export default {
       description: 'Reapply commits on top of another base tip.',
       tfsEquivalent: 'No equivalent',
       example: 'git rebase main'
+    }
+  ],
+  utilities: [
+    {
+      name: 'touch',
+      syntax: 'touch <file>',
+      description: 'Create a new empty file in the working directory.',
+      tfsEquivalent: 'Add New File',
+      example: 'touch index.html'
+    },
+    {
+      name: 'rm',
+      syntax: 'rm <file>',
+      description: 'Remove a file from the working directory.',
+      tfsEquivalent: 'Delete File',
+      example: 'rm oldfile.txt'
+    },
+    {
+      name: 'git diff',
+      syntax: 'git diff',
+      description: 'Show unstaged differences between working directory and staging area.',
+      tfsEquivalent: 'Compare Files',
+      example: 'git diff'
     }
   ]
 };
