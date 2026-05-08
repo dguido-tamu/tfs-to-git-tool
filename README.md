@@ -26,6 +26,8 @@ The app provides three complementary learning modes:
 
 **[https://dguido-tamu.github.io/tfs-to-git-tool/](https://dguido-tamu.github.io/tfs-to-git-tool/)**
 
+![Git Shift demo screenshot](/public/demo-tfs-to-git-tool-2026-05-08-11_40_37.jpg)
+
 
 ---
 
