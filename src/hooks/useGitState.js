@@ -49,6 +49,35 @@ function gitReducer(state, action) {
         stagingArea: [...state.stagingArea, { ...file, status: 'Staged' }]
       };
     }
+
+    case 'TOUCH': {
+      if (!action.payload) return state;
+
+      const fileName = action.payload;
+      const existsInWorkingDirectory = state.workingDirectory.some((file) => file.name === fileName);
+      const existsInStagingArea = state.stagingArea.some((file) => file.name === fileName);
+
+      if (existsInWorkingDirectory || existsInStagingArea) return state;
+
+      return {
+        ...state,
+        workingDirectory: [
+          { name: fileName, type: 'file', status: 'Untracked' },
+          ...state.workingDirectory
+        ]
+      };
+    }
+
+    case 'RM': {
+      if (!action.payload) return state;
+
+      const fileName = action.payload;
+      return {
+        ...state,
+        workingDirectory: state.workingDirectory.filter((file) => file.name !== fileName),
+        stagingArea: state.stagingArea.filter((file) => file.name !== fileName)
+      };
+    }
       
     case 'ADD_ALL':
       return {
@@ -172,6 +201,9 @@ function gitReducer(state, action) {
       };
       
     case 'LOG':
+      return state;
+
+    case 'DIFF':
       return state;
       
     case 'REMOTE_ADD':
