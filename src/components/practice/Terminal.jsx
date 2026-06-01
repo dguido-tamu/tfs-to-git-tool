@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTerminal } from '../../hooks/useTerminal';
 import styles from './Terminal.module.css';
 
-export default function Terminal({ onDispatch, onAlert }) {
+export default function Terminal({ onDispatch, onAlert, gitState }) {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -25,7 +25,45 @@ export default function Terminal({ onDispatch, onAlert }) {
     }
 
     const newLines = [...outputLines, { type: 'input', text: `$ ~/project ${val}` }];
-    const result = parseCommand(val);
+    let result = parseCommand(val);
+    
+    // Validate branch switching: prevent if workspace has uncommitted changes
+    const isSwitchCommand = val.includes('git switch') || val.includes('git checkout');
+    const hasUncommittedChanges = gitState && (gitState.workingDirectory.length > 0 || gitState.stagingArea.length > 0);
+    
+    if (isSwitchCommand && hasUncommittedChanges) {
+      newLines.push({ type: 'output', text: 'error: Your local changes to the following files would be overwritten by checkout:' });
+      if (gitState.workingDirectory.length > 0) {
+        gitState.workingDirectory.forEach(f => {
+          newLines.push({ type: 'output', text: `\t${f.name}` });
+        });
+      }
+      if (gitState.stagingArea.length > 0) {
+        gitState.stagingArea.forEach(f => {
+          newLines.push({ type: 'output', text: `\t${f.name}` });
+        });
+      }
+      newLines.push({ type: 'output', text: 'Please commit your changes or stash them before you switch branches.' });
+      
+      setOutputLines(newLines);
+      setHistory([val, ...history]);
+      setHistoryIndex(-1);
+      setInput('');
+      return; // Don't dispatch action, don't update state
+    }
+
+    // Enrich 'git branch' output with actual branches from state
+    if (val === 'git branch' && gitState) {
+      const branches = gitState.localRepo.branches;
+      const currentBranch = gitState.localRepo.currentBranch;
+      const branchLines = branches.map(branch => 
+        branch === currentBranch ? `* ${branch}` : `  ${branch}`
+      );
+      result = {
+        ...result,
+        output: branchLines
+      };
+    }
     
     if (result.output && result.output.length > 0) {
       result.output.forEach(line => newLines.push({ type: 'output', text: line }));

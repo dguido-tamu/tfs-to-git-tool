@@ -209,12 +209,16 @@ export function useTerminal() {
         }
 
       case 'switch':
-        if (args[0] === '-c' && args[1]) {
-          return {
-            output: [`Switched to a new branch '${args[1]}'`],
-            action: { type: 'SWITCH', payload: { name: args[1], create: true } },
-            tfsContext: 'Creates a branch and immediately switches your workspace to it.'
-          };
+        if (args[0] === '-c') {
+          if (args[1]) {
+            return {
+              output: [`Switched to a new branch '${args[1]}'`],
+              action: { type: 'SWITCH', payload: { name: args[1], create: true } },
+              tfsContext: 'Creates a branch and immediately switches your workspace to it.'
+            };
+          } else {
+            return { output: ['error: switch `c\' requires a value'] };
+          }
         } else if (args[0]) {
           return {
             output: [`Switched to branch '${args[0]}'`],
@@ -225,12 +229,16 @@ export function useTerminal() {
         return { output: ['Missing branch name.'] };
 
       case 'checkout':
-        if (args[0] === '-b' && args[1]) {
-          return {
-            output: [`Switched to a new branch '${args[1]}'`],
-            action: { type: 'SWITCH', payload: { name: args[1], create: true } },
-            tfsContext: 'git checkout is the traditional way to switch branches. Modern Git prefers `git switch` which is more explicit: use `git switch -c` to create, or `git switch` to switch existing.'
-          };
+        if (args[0] === '-b') {
+          if (args[1]) {
+            return {
+              output: [`Switched to a new branch '${args[1]}'`],
+              action: { type: 'SWITCH', payload: { name: args[1], create: true } },
+              tfsContext: 'git checkout is the traditional way to switch branches. Modern Git prefers `git switch` which is more explicit: use `git switch -c` to create, or `git switch` to switch existing.'
+            };
+          } else {
+            return { output: ['error: switch `b\' requires a value'] };
+          }
         } else if (args[0]) {
           return {
             output: [`Switched to branch '${args[0]}'`],
