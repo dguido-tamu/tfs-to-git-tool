@@ -31,6 +31,7 @@ export default function ZoneCard({ title, icon: Icon, accentColor, files, commit
               <li key={i} className={styles.commitItem}>
                 <span className={styles.commitHash}>{commit.hash}</span>
                 <span className={styles.commitMsg}>{commit.message}</span>
+                {commit.branch && <span className={styles.commitBranch}>{commit.branch}</span>}
               </li>
             ))}
           </ul>
