@@ -3,6 +3,11 @@ import ZoneCard from './ZoneCard';
 import styles from './ZoneCanvas.module.css';
 
 export default function ZoneCanvas({ gitState, highlightZone }) {
+  const currentBranch = gitState.localRepo.currentBranch;
+  const localCommits = gitState.localRepo.commits.filter(c => c.branch === currentBranch);
+  const remoteCommits = gitState.remote.commits.filter(c => c.branch === currentBranch);
+  const remoteAhead = localCommits.length - remoteCommits.length;
+
   return (
     <div className={styles.canvas}>
       <div className={styles.topRow}>
@@ -31,9 +36,9 @@ export default function ZoneCanvas({ gitState, highlightZone }) {
             title="Local Repository" 
             icon={Database} 
             accentColor="#500000" 
-            commits={gitState.localRepo.commits}
-            emptyMessage="No commits yet. Use 'git commit'"
-            extraInfo={`Branch: ${gitState.localRepo.currentBranch}`}
+            commits={localCommits}
+            emptyMessage={`No commits on '${currentBranch}' yet. Use 'git commit'`}
+            extraInfo={`Branch: ${currentBranch}`}
           />
         </div>
       </div>
@@ -54,9 +59,9 @@ export default function ZoneCanvas({ gitState, highlightZone }) {
             title="Remote (Origin)" 
             icon={Cloud} 
             accentColor="#006494" 
-            commits={gitState.remote.commits}
-            emptyMessage={gitState.remote.connected ? "No pushed commits" : "Not connected"}
-            extraInfo={gitState.remote.connected ? (gitState.remote.aheadBy > 0 ? `${gitState.remote.aheadBy} ahead` : 'Synced') : null}
+            commits={remoteCommits}
+            emptyMessage={gitState.remote.connected ? `No pushed commits on '${currentBranch}'` : "Not connected"}
+            extraInfo={gitState.remote.connected ? (remoteAhead > 0 ? `${remoteAhead} ahead` : 'Synced') : null}
           />
         </div>
       </div>
