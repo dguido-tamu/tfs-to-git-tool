@@ -3,8 +3,8 @@ export default {
     {
       name: 'git init',
       syntax: 'git init',
-      description: 'Initialize a new, empty Git repository locally.',
-      tfsEquivalent: 'Create Workspace',
+      description: 'Create a new, empty Git repository locally (rarely used when migrating an existing project).',
+      tfsEquivalent: 'No exact equivalent (creates a new local repo from scratch)',
       example: 'git init'
     },
     {
@@ -63,8 +63,8 @@ export default {
     {
       name: 'git clone',
       syntax: 'git clone <url>',
-      description: 'Clone a repository into a new directory.',
-      tfsEquivalent: 'Get Latest (initial)',
+      description: 'Clone a repository into a new directory, creating the local workspace and performing the initial Get Latest in one step.',
+      tfsEquivalent: 'Create Workspace + Get Latest (initial)',
       example: 'git clone https://github.com/org/repo.git'
     },
     {
