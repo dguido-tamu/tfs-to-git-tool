@@ -1,6 +1,31 @@
 export function useTerminal() {
   const parseCommand = (input) => {
     const parts = input.trim().split(/\s+/);
+    
+    // Handle non-git commands
+    if (parts[0] === 'touch') {
+      if (parts[1]) {
+        return {
+          output: [],
+          action: { type: 'TOUCH', payload: parts[1] },
+          alert: { type: 'success', message: `Created file ${parts[1]}` },
+          tfsContext: 'Creates a new empty file in your working directory.'
+        };
+      }
+      return { output: ['Usage: touch <filename>'], action: null, tfsContext: null };
+    }
+
+    if (parts[0] === 'rm') {
+      if (parts[1]) {
+        return {
+          output: [],
+          action: { type: 'RM', payload: parts[1] },
+          tfsContext: 'Removes a file from your working directory.'
+        };
+      }
+      return { output: ['Usage: rm <filename>'], action: null, tfsContext: null };
+    }
+    
     if (parts[0] !== 'git') {
       if (!input.trim()) return { output: [], action: null, tfsContext: null };
       return { 
@@ -112,6 +137,16 @@ export function useTerminal() {
         }
         return { output: ['Missing branch name.'] };
 
+      case 'merge':
+        if (args[0]) {
+          return {
+            output: [],
+            action: { type: 'MERGE', payload: args[0] },
+            tfsContext: 'In TFS, this is like merging changes from one branch to another. Git merges are local until you push.'
+          };
+        }
+        return { output: ['Missing branch name.'] };
+
       case 'stash':
         if (args[0] === 'pop') {
           return {
@@ -139,6 +174,23 @@ export function useTerminal() {
           action: { type: 'RESTORE' },
           alert: { type: 'warning', message: 'Working directory restored' },
           tfsContext: 'Like "Undo Pending Changes" in TFS. Your uncommitted edits are gone.'
+        };
+
+      case 'diff':
+        return {
+          output: [
+            'diff --git a/file.txt b/file.txt',
+            'index 1234567..abcdefg 100644',
+            '--- a/file.txt',
+            '+++ b/file.txt',
+            '@@ -1,3 +1,3 @@',
+            ' unchanged line',
+            '-old content',
+            '+new content',
+            ' another unchanged line'
+          ],
+          action: { type: 'DIFF' },
+          tfsContext: 'Shows differences between your working directory and staging area. Similar to TFS Compare.'
         };
 
       case 'remote':

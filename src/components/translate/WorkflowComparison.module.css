@@ -14,7 +14,7 @@
 }
 
 .stepButton {
-  background-color: var(--color-primary);
+  background-color: var(--color-maroon);
   color: white;
   padding: var(--space-2) var(--space-4);
   border-radius: 4px;

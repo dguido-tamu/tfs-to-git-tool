@@ -54,15 +54,22 @@
   --color-text: #ececec;
   --color-text-muted: #a7a7a7;
   --color-border: #3e3e3e;
-  --color-primary: #732f2f;
+  --color-primary: #ececec;
   --color-primary-hover: #500000;
-  --color-primary-light: #8a4040;
+  --color-primary-light: #732F2F;
 
   /* Adjust additional Section 3 colors for dark mode */
   --color-maroon: #732F2F;
   --color-maroon-dark: #500000;
   --color-maroon-light: #8A4040;
   --color-cream: #3A3832; /* darker cream approximation */
+
+  /* Semantic state colors */
+  --color-success: #437a22;
+  --color-warning: #d19900;
+  --color-error: #a12c7b;
+  --color-info: #2f93c3;
+
 }
 
 
@@ -103,7 +110,7 @@ button, a {
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-maroon);
   text-decoration: none;
 }
 

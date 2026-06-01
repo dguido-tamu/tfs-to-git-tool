@@ -63,7 +63,7 @@
 }
 
 .table th {
-  background-color: var(--color-primary);
+  background-color: var(--color-maroon);
   color: white;
   padding: var(--space-4);
   font-family: var(--font-action);
