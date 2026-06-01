@@ -1,9 +1,9 @@
 export default [
   {
     id: 1,
-    tfsAction: 'Get Latest (first time)',
+    tfsAction: 'Create Workspace + Get Latest',
     gitEquivalent: 'git clone <url>',
-    keyDifference: 'Creates a full local copy with complete history',
+    keyDifference: 'Git combines mapping the remote repository and downloading the files into a single step.',
     example: 'git clone https://github.com/org/repo.git',
     lessonId: 1
   },
@@ -46,14 +46,6 @@ export default [
     keyDifference: 'Tags must be pushed separately with `git push --tags`',
     example: 'git tag v1.0.0',
     lessonId: null
-  },
-  {
-    id: 7,
-    tfsAction: 'Workspace',
-    gitEquivalent: 'Local repository (~/.git)',
-    keyDifference: 'Your local repo contains the full history — no server needed',
-    example: 'git init',
-    lessonId: 1
   },
   {
     id: 8,
