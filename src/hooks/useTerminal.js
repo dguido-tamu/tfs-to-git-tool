@@ -224,6 +224,22 @@ export function useTerminal() {
         }
         return { output: ['Missing branch name.'] };
 
+      case 'checkout':
+        if (args[0] === '-b' && args[1]) {
+          return {
+            output: [`Switched to a new branch '${args[1]}'`],
+            action: { type: 'SWITCH', payload: { name: args[1], create: true } },
+            tfsContext: 'git checkout is the traditional way to switch branches. Modern Git prefers `git switch` which is more explicit: use `git switch -c` to create, or `git switch` to switch existing.'
+          };
+        } else if (args[0]) {
+          return {
+            output: [`Switched to branch '${args[0]}'`],
+            action: { type: 'SWITCH', payload: { name: args[0], create: false } },
+            tfsContext: 'git checkout switches branches. Git 2.23+ introduced `git switch` as a more intuitive alternative: use `git switch` to switch, `git switch -c` to create and switch.'
+          };
+        }
+        return { output: ['Missing branch name.'] };
+
       case 'merge':
         if (args[0]) {
           return {
