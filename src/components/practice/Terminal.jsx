@@ -92,7 +92,7 @@ export default function Terminal({ onDispatch, onAlert }) {
           <div ref={bottomRef} />
         </div>
         <form onSubmit={handleSubmit} className={styles.inputRow}>
-          <span className={styles.prompt}>$ ~/project git</span>
+          <span className={styles.prompt}>$ ~/project</span>
           <input
             ref={inputRef}
             type="text"

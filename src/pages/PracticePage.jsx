@@ -43,7 +43,9 @@ export default function PracticePage() {
         />
         
         <div className={styles.mainContent}>
-          <ZoneCanvas gitState={state} highlightZone={highlightZone} />
+          <div className={styles.zoneScroller}>
+            <ZoneCanvas gitState={state} highlightZone={highlightZone} />
+          </div>
           <Terminal onDispatch={dispatch} onAlert={handleAlert} />
         </div>
       </div>

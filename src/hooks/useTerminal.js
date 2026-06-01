@@ -1,33 +1,106 @@
+import referenceCommands from '../data/referenceCommands';
+
 export function useTerminal() {
+  const helpFlags = new Set(['--help', '-h']);
+  const commandGroups = Object.entries(referenceCommands);
+
+  const commandLookup = commandGroups.reduce((lookup, [, commands]) => {
+    commands.forEach((command) => {
+      lookup[command.name] = command;
+
+      if (command.name.startsWith('git ')) {
+        const shortName = command.name.slice(4);
+        lookup[shortName] = command;
+      }
+    });
+
+    return lookup;
+  }, {});
+
+  const buildGlobalHelp = () => {
+    const lines = ['Available commands:'];
+
+    commandGroups.forEach(([groupName, commands]) => {
+      lines.push('');
+      lines.push(`${groupName.toUpperCase()}:`);
+      commands.forEach((command) => {
+        lines.push(`  ${command.name} - ${command.description}`);
+      });
+    });
+
+    lines.push('');
+    lines.push('Tip: run <command> --help for command details.');
+    return lines;
+  };
+
+  const buildCommandHelp = (command) => {
+    if (!command) {
+      return [
+        'Help not available for that command.',
+        'Try --help to view all available commands.'
+      ];
+    }
+
+    return [
+      `${command.name}`,
+      `Description: ${command.description}`,
+      `Syntax: ${command.syntax}`,
+      `Example: ${command.example}`,
+      `TFS Equivalent: ${command.tfsEquivalent}`
+    ];
+  };
+
   const parseCommand = (input) => {
-    const parts = input.trim().split(/\s+/);
+    const trimmedInput = input.trim();
+    if (!trimmedInput) return { output: [], action: null, tfsContext: null };
+
+    const parts = trimmedInput.split(/\s+/);
+    const hasGitPrefix = parts[0] === 'git';
+
+    const cmd = hasGitPrefix ? parts[1] : parts[0];
+    const args = hasGitPrefix ? parts.slice(2) : parts.slice(1);
+
+    if (cmd === '--help' || cmd === '-h' || cmd === 'help') {
+      return {
+        output: buildGlobalHelp(),
+        action: null,
+        tfsContext: 'Quick reference of sandbox commands and their TFS equivalents.'
+      };
+    }
+
+    if (helpFlags.has(args[0])) {
+      return {
+        output: buildCommandHelp(commandLookup[cmd]),
+        action: null,
+        tfsContext: 'Detailed command help with TFS mapping.'
+      };
+    }
     
-    // Handle non-git commands
-    if (parts[0] === 'touch') {
-      if (parts[1]) {
+    // Utility commands can be entered directly or as `git <utility>` in this sandbox.
+    if (cmd === 'touch') {
+      if (args[0]) {
         return {
           output: [],
-          action: { type: 'TOUCH', payload: parts[1] },
-          alert: { type: 'success', message: `Created file ${parts[1]}` },
+          action: { type: 'TOUCH', payload: args[0] },
+          alert: { type: 'success', message: `Created file ${args[0]}` },
           tfsContext: 'Creates a new empty file in your working directory.'
         };
       }
       return { output: ['Usage: touch <filename>'], action: null, tfsContext: null };
     }
 
-    if (parts[0] === 'rm') {
-      if (parts[1]) {
+    if (cmd === 'rm') {
+      if (args[0]) {
         return {
           output: [],
-          action: { type: 'RM', payload: parts[1] },
+          action: { type: 'RM', payload: args[0] },
           tfsContext: 'Removes a file from your working directory.'
         };
       }
       return { output: ['Usage: rm <filename>'], action: null, tfsContext: null };
     }
     
-    if (parts[0] !== 'git') {
-      if (!input.trim()) return { output: [], action: null, tfsContext: null };
+    if (!hasGitPrefix) {
       return { 
         output: [`Command not recognized. Type 'help' for available commands.`], 
         action: null,
@@ -35,9 +108,6 @@ export function useTerminal() {
         tfsContext: null
       };
     }
-
-    const cmd = parts[1];
-    const args = parts.slice(2);
 
     switch (cmd) {
       case 'init':
@@ -77,18 +147,35 @@ export function useTerminal() {
         }
         return { output: ['Nothing specified, nothing added.'] };
 
-      case 'commit':
-        const msgIndex = args.indexOf('-m');
+      case 'commit': {
         let msg = 'Update';
-        if (msgIndex !== -1 && args[msgIndex + 1]) {
-          msg = args.slice(msgIndex + 1).join(' ').replace(/['"]/g, '');
+
+        for (let i = 0; i < args.length; i += 1) {
+          const token = args[i];
+
+          if (token === '-m' && args[i + 1]) {
+            msg = args.slice(i + 1).join(' ');
+            break;
+          }
+
+          if (token.startsWith('-m') && token.length > 2) {
+            const inlineMessage = token.slice(2);
+            const trailing = args.slice(i + 1).join(' ');
+            msg = [inlineMessage, trailing].filter(Boolean).join(' ');
+            break;
+          }
         }
+
+        msg = msg.trim().replace(/^=+/, '').replace(/^['"]|['"]$/g, '');
+        if (!msg) msg = 'Update';
+
         return {
           output: [`[main] ${msg}`],
           action: { type: 'COMMIT', payload: msg },
           alert: { type: 'success', message: 'Changes committed locally' },
           tfsContext: 'In TFS, a Check In sends files to the server. A Git commit only saves to your local hard drive.'
         };
+      }
 
       case 'push':
         return {

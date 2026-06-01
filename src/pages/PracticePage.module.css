@@ -1,7 +1,7 @@
 .page {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 64px); /* Subtract navbar height */
+  min-height: calc(100vh - 86px);
   padding: var(--space-4);
 }
 
@@ -23,14 +23,23 @@
 .layout {
   display: flex;
   flex-grow: 1;
+  min-height: 0;
   gap: var(--space-4);
   overflow: hidden;
 }
 
 .mainContent {
   flex-grow: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   gap: var(--space-4);
+}
+
+.zoneScroller {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
